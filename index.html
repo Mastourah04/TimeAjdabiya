@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+c<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مواقيت الصلاة لمدينة اجدابيا</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/adhan/1.1.0/adhan.min.js"></script>
+    <style>
+        body {
+            font-family: 'Amiri', serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            direction: rtl;
+        }
+        .header {
+            background: #d4af37;
+            color: #fff;
+            padding: 20px;
+            position: relative;
+        }
+        .header h1 {
+            margin: 0;
+        }
+        .date-container {
+            margin-top: 10px;
+            color: #fff;
+            font-size: 18px;
+        }
+        .container {
+            width: 80%;
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .image-container {
+            margin-bottom: 20px;
+        }
+        .image-container img {
+            width: 70px; 
+            height: 70px; 
+            border-radius: 10px;
+        }
+        #clock, #countdown {
+            font-size: 20px;
+            color: #d4af37; 
+            margin-bottom: 10px;
+        }
+        #prayerTimes {
+            margin: 20px 0;
+        }
+        .time-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            border: 1px solid #d4af37;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 5px 0;
+            font-size: 18px;
+            color: #d4af37; 
+        }
+        .time-box p {
+            margin: 0;
+        }
+        .time-box span {
+            font-size: 20px;
+            color: #d4af37; 
+        }
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .button-pair {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .button {
+            background-color: #d4af37; 
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            flex: 1;
+            text-align: center;
+        }
+        .button:hover {
+            background-color: #b8972f; 
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>مواقيت الصلاة لمدينة اجدابيا</h1>
+        <div class="date-container">
+            <div id="gregorianDate"></div>
+            <div id="hijriDate"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="image-container">
+            <img src="N.jpg" alt="صورة رمزية">
+        </div>
+        <div id="clock">الساعة: --:--:--</div>
+        <div id="countdown">الوقت المتبقي للوقت التالي: --</div>
+
+        <div id="prayerTimes">
+            
+        </div>
+    </div>
+
+    <div class="buttons">
+        <div class="button-pair">
+            <a href="adhkar.html" class="button">أذكار الصلاة</a>
+            <a href="tasbeeh.html" class="button">سبحة إلكترونية</a>
+        </div>
+        <div class="button-pair">
+            <a href="morning_evening_adhkar.html" class="button">أذكار الصباح 
+                والمساء</a>
+            <a href="qibla_direction.html" class="button">اتجاه القبلة</a>
+        </div>
+        <div class="button-pair">
+            <a href="asmaulhusna.html" class="button">الأسماء الله الحسنى</a>
+            <a href="surahalkahf.html" class="button">سورة الكهف</a>
+        </div>
+    </div>
+
+    <script>
+        async function fetchPrayerTimes() {
+            const API_URL = 'https://api.aladhan.com/v1/timingsByCity?city=Ajdabiya&country=Libya&method=8';
+
+            try {
+                const response = await fetch(API_URL);
+                const data = await response.json();
+                const timings = data.data.timings;
+                const hijriDate = data.data.date.hijri.date; 
+
+                const prayerTimesData = {
+                    "الفجر": timings.Fajr,
+                    "الشروق": timings.Sunrise,
+                    "الظهر": timings.Dhuhr,
+                    "العصر": timings.Asr,
+                    "المغرب": timings.Maghrib,
+                    "العشاء": timings.Isha
+                };
+
+                
+                const prayerTimesDiv = document.getElementById('prayerTimes');
+                prayerTimesDiv.innerHTML = '';
+
+                for (const [prayer, time] of Object.entries(prayerTimesData)) {
+                    const icon = {
+                        "الفجر": " 🕛 ",
+                        "الشروق": "    🕛 ",
+                        "الظهر": "🕛",
+                        "العصر": "🕓",
+                        "المغرب": "    🕛   ",
+                        "العشاء": "🕛"
+                    }[prayer];
+
+                    prayerTimesDiv.innerHTML += `
+                        <div class="time-box">
+                            <span>${icon}</span>
+                            <p>${prayer}</p>
+                            <p>${time}</p>
+                        </div>
+                    `;
+                }
+
+                // تحديث التاريخ الهجري
+                document.getElementById('hijriDate').textContent = `التاريخ الهجري: ${hijriDate}`;
+
+                
+                const now = moment();
+                let nextPrayerTime = null;
+                for (const [prayer, time] of Object.entries(prayerTimesData)) {
+                    const prayerMoment = moment(time, 'HH:mm');
+                    if (prayerMoment.isAfter(now)) {
+                        nextPrayerTime = prayerMoment;
+                        break;
+                    }
+                }
+
+                if (nextPrayerTime) {
+                    updateCountdown(nextPrayerTime);
+                }
+            } catch (error) {
+                console.error("Error fetching prayer times:", error);
+            }
+        }
+
+        function updateDateTime() {
+            const now = moment();
+            const gregorianDate = now.format('YYYY-MM-DD');
+            document.getElementById('gregorianDate').textContent = `التاريخ الميلادي: ${gregorianDate}`;
+        }
+
+        function updateClock() {
+            const now = moment().format('HH:mm:ss');
+            document.getElementById('clock').textContent = `الساعة: ${now}`;
+        }
+
+        function updateCountdown(nextPrayerTime) {
+            function calculateCountdown() {
+                const now = moment();
+                const duration = moment.duration(nextPrayerTime.diff(now));
+                const hours = String(duration.hours()).padStart(2, '0');
+                const minutes = String(duration.minutes()).padStart(2, '0');
+                const seconds = String(duration.seconds()).padStart(2, '0');
+                document.getElementById('countdown').textContent = `الوقت المتبقي للوقت التالي: ${hours}:${minutes}:${seconds}`;
+            }
+            calculateCountdown();
+            setInterval(calculateCountdown, 1000);
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchPrayerTimes();
+            updateDateTime();
+            updateClock();
+            setInterval(updateClock, 1000); 
+        });
+    </script>
+</body>
+</html>

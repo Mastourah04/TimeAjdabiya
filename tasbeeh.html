@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سبحة إلكترونية</title>
+    <style>
+        body {
+            font-family: 'Amiri', serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            direction: rtl;
+        }
+        .counter-container {
+            background-color: #d4af37; 
+            color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            margin-bottom: 20px; 
+        }
+        .counter {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        .button {
+            background-color: #fff;
+            color: #d4af37; 
+            border: none;
+            padding: 15px 25px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .button:hover {
+            background-color: #f0e68c;
+        }
+        .back-button {
+            background-color: #d4af37; 
+            color: #fff;
+            border: none;
+            padding: 15px 25px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none; 
+        }
+        .back-button:hover {
+            background-color: #b8972f;
+        }
+    </style>
+</head>
+<body>
+    <div class="counter-container">
+        <div id="counter" class="counter">0</div>
+        <button class="button" onclick="incrementCounter()">  عد</button>
+        <button class="button" onclick="resetCounter()">إعادة التعيين</button>
+    </div>
+    <a href="index.html" class="back-button">العودة لصفحة الرئيسية</a>
+
+    <script>
+        let count = 0;
+
+        function incrementCounter() {
+            count++;
+            document.getElementById('counter').textContent = count;
+        }
+
+        function resetCounter() {
+            count = 0;
+            document.getElementById('counter').textContent = count;
+        }
+    </script>
+</body>
+</html>

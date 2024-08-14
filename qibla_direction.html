@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بوصلة القبلة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Amiri', serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            direction: rtl;
+        }
+        .header {
+            background: #d4af37; 
+            color: #fff;
+            padding: 20px;
+        }
+        .header h1 {
+            margin: 0;
+        }
+        .compass-container {
+            margin-top: 50px;
+            text-align: center;
+        }
+        .compass {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            border: 10px solid #d4af37; 
+            border-radius: 50%;
+            position: relative;
+            background: url('compass-background.png') no-repeat center center;
+            background-size: cover;
+        }
+        .compass .needle {
+            width: 2px;
+            height: 100px;
+            background-color: red;
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform-origin: bottom;
+        }
+        .compass .direction {
+            position: absolute;
+            font-size: 18px;
+            color: #d4af37;
+        }
+        .compass .north { top: 5%; left: 50%; transform: translateX(-50%); }
+        .compass .south { bottom: 5%; left: 50%; transform: translateX(-50%); }
+        .compass .east { right: 5%; top: 50%; transform: translateY(-50%); }
+        .compass .west { left: 5%; top: 50%; transform: translateY(-50%); }
+        .compass .kaaba {
+            width: 30px;
+            height: 30px;
+            background: url('kaaba.png') no-repeat center center;
+            background-size: contain;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .image-container {
+            margin-top: 30px;
+        }
+        .image-container img {
+            width: 100px;
+            height: auto;
+        }
+        .back-button {
+            margin-top: 20px;
+            background-color: #d4af37;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .back-button:hover {
+            background-color: #c49b2b;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>بوصلة القبلة</h1>
+    </div>
+    <div class="compass-container">
+        <div class="compass">
+            <div class="needle" id="needle"></div>
+            <div class="direction north">شمال</div>
+            <div class="direction south">جنوب</div>
+            <div class="direction east">شرق</div>
+            <div class="direction west">غرب</div>
+            <div class="kaaba" id="kaaba"></div>
+        </div>
+    </div>
+
+    <!-- حاوية الصورة -->
+    <div class="image-container">
+        <img src="f.jpg" alt="صورة أسفل البوصلة">
+    </div>
+
+    
+    <a href="index.html" class="back-button">العودة إلى الصفحة الرئيسية</a>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            if (window.DeviceOrientationEvent) {
+                window.addEventListener('deviceorientation', handleOrientation, true);
+            } else {
+                alert("جهازك لا يدعم بوصلة الاتجاه.");
+            }
+        });
+
+        function handleOrientation(event) {
+            const alpha = event.alpha;
+            const qiblaDirection = 100; 
+            const needle = document.getElementById('needle');
+            const kaaba = document.getElementById('kaaba');
+            const rotation = (alpha - qiblaDirection) % 360;
+            needle.style.transform = `rotate(${rotation}deg)`;
+            kaaba.style.transform = `rotate(${rotation}deg) translate(-50%, -50%)`;
+        }
+    </script>
+</body>
+</html>
